@@ -1,0 +1,31 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.example.horlogewidget'
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "com.example.horlogewidget"
+        minSdk 26        // texte auto-ajustable (autoSizeText) disponible des l'API 26
+        targetSdk 29     // Android 10
+        versionCode 1
+        versionName "1.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+// Aucune dependance externe
+dependencies {
+}
