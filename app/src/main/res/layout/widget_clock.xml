@@ -29,7 +29,8 @@
         android:shadowDy="1"
         android:shadowRadius="3"
         android:textColor="#FFFFFF"
-        android:textStyle="bold" />
+         />
+     <!-- android:textStyle="bold" -->
 
     <!-- Date : texte fourni par ClockWidgetProvider -->
     <TextView
@@ -49,6 +50,7 @@
         android:shadowDy="1"
         android:shadowRadius="3"
         android:textColor="#FFFFFF"
-        android:textStyle="bold" />
+         />
+     <!-- android:textStyle="bold" -->
 
 </LinearLayout>
