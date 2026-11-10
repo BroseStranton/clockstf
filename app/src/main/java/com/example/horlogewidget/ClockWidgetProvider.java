@@ -24,7 +24,7 @@ public class ClockWidgetProvider extends AppWidgetProvider {
     private static final String ACTION_MIDNIGHT = "com.example.horlogewidget.ACTION_MIDNIGHT";
 
     // Calendar.DAY_OF_WEEK : dimanche = 1
-    private static final String[] JOURS = {"dim", "lun", "mar", "mer", "jeu", "ven", "sam"};
+    private static final String[] JOURS = {"Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"};
     private static final String[] MOIS = {
             "jan", "fév", "mar", "avr", "mai", "juin",
             "juil", "aoû", "sep", "oct", "nov", "déc"};
