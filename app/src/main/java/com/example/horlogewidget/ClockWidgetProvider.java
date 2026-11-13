@@ -26,8 +26,8 @@ public class ClockWidgetProvider extends AppWidgetProvider {
     // Calendar.DAY_OF_WEEK : dimanche = 1
     private static final String[] JOURS = {"Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"};
     private static final String[] MOIS = {
-            "jan", "fév", "mar", "avr", "mai", "juin",
-            "juil", "aoû", "sep", "oct", "nov", "déc"};
+            "JAN", "FÉV", "MAR", "AVR", "MAI", "JUIN",
+            "JUIL", "AOÛ", "SEP", "OCT", "NOV", "DÉC"};
 
     @Override
     public void onUpdate(Context context, AppWidgetManager manager, int[] appWidgetIds) {
