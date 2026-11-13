@@ -12,7 +12,7 @@
     <!-- Heure : TextClock se met a jour tout seul chaque minute -->
     <TextClock
         android:id="@+id/txt_time"
-        android:fontFamily="sans-serif-medium"
+        android:fontFeatureSettings="tnum"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="5"
@@ -31,7 +31,8 @@
         android:shadowRadius="3"
         android:textColor="#FFFFFF"
          />
-     <!-- android:textStyle="bold" -->
+     <!-- android:textStyle="bold" 
+     android:fontFamily="sans-serif-medium"-->
 
     <!-- Date : texte fourni par ClockWidgetProvider -->
     <TextView
