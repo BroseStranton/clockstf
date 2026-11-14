@@ -5,10 +5,11 @@
     android:id="@+id/widget_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/widget_background"
     android:gravity="center"
     android:orientation="vertical"
     android:padding="4dp">
-
+     
     <!-- Heure : TextClock se met a jour tout seul chaque minute -->
     <TextClock
         android:id="@+id/txt_time"
