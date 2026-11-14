@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Fond du widget : rectangle noir semi-transparent a coins arrondis.
+     La couleur est au format #AARRGGBB : AA = alpha (opacite), RR GG BB = teinte.
+     Alpha 0x94 = 148/255 = 58% d'opacite, 000000 = noir. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <!-- Rectangulaire noir, opacite 58% -->
+    <solid android:color="#94000000" />
+
+    <!-- Coins legerement arrondis -->
+    <corners android:radius="8dp" />
+
+</shape>
