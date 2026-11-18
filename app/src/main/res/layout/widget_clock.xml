@@ -14,7 +14,7 @@
     <TextClock
         android:id="@+id/txt_time"
         android:fontFeatureSettings="tnum"
-        android:fontFamily="@font/mononoki_bold"
+        android:fontFamily="@font/sharetech_mono_regular"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="5"
