@@ -1,4 +1,4 @@
-m<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <!-- Les deux TextView ajustent automatiquement leur taille a l'espace disponible :
      le texte grandit / reduit quand on redimensionne le widget. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
