@@ -15,7 +15,7 @@
         android:id="@+id/txt_time"
         android:fontFeatureSettings="tnum"
         android:fontFamily="sans-serif"
-        android:letterSpacing="1.5"
+        android:letterSpacing="0.2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="5"
