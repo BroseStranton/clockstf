@@ -7,6 +7,7 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.provider.AlarmClock;
 import android.widget.RemoteViews;
 
@@ -23,8 +24,8 @@ public class ClockWidgetProvider extends AppWidgetProvider {
     private static final String CLOCK_PACKAGE = "com.android.deskclock";
     private static final String ACTION_MIDNIGHT = "com.example.horlogewidget.ACTION_MIDNIGHT";
 
-// Calendar.DAY_OF_WEEK : lundi doit donner l'index 0, dimanche l'index 6
-private static final String[] JOURS = {"LUN", "MAR", "MER", "JEU", "VEN", "SAM", "DIM"};
+    // Calendar.DAY_OF_WEEK : lundi doit donner l'index 0, dimanche l'index 6
+    private static final String[] JOURS = {"LUN", "MAR", "MER", "JEU", "VEN", "SAM", "DIM"};
     private static final String[] MOIS = {
             "JAN", "FÉV", "MAR", "AVR", "MAI", "JUIN",
             "JUIL", "AOÛ", "SEP", "OCT", "NOV", "DÉC"};
@@ -40,6 +41,9 @@ private static final String[] JOURS = {"LUN", "MAR", "MER", "JEU", "VEN", "SAM",
     @Override
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
+        if (intent == null) {
+            return;
+        }
         String action = intent.getAction();
         if (ACTION_MIDNIGHT.equals(action)
                 || Intent.ACTION_DATE_CHANGED.equals(action)
@@ -90,15 +94,15 @@ private static final String[] JOURS = {"LUN", "MAR", "MER", "JEU", "VEN", "SAM",
         return PendingIntent.getActivity(context, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
-/** Ex : "ven 6 nov" (jour sans zero devant). */
-static String formatDate(Calendar c) {
-    // DAY_OF_WEEK : DIM=1, LUN=2, ..., SAM=7  ->  index : LUN=0, ..., DIM=6
-    int index = (c.get(Calendar.DAY_OF_WEEK) + 5) % 7;
-    String jour = JOURS[index];
-    int numero = c.get(Calendar.DAY_OF_MONTH);
-    String mois = MOIS[c.get(Calendar.MONTH)];
-    return jour + " " + numero + " " + mois;
-}
+    /** Ex : "ven 6 nov" (jour sans zero devant). */
+    static String formatDate(Calendar c) {
+        // DAY_OF_WEEK : DIM=1, LUN=2, ..., SAM=7  ->  index : LUN=0, ..., DIM=6
+        int index = (c.get(Calendar.DAY_OF_WEEK) + 5) % 7;
+        String jour = JOURS[index];
+        int numero = c.get(Calendar.DAY_OF_MONTH);
+        String mois = MOIS[c.get(Calendar.MONTH)];
+        return jour + " " + numero + " " + mois;
+    }
 
     private static PendingIntent midnightIntent(Context context) {
         Intent intent = new Intent(context, ClockWidgetProvider.class);
@@ -116,6 +120,11 @@ static String formatDate(Calendar c) {
         next.set(Calendar.MINUTE, 0);
         next.set(Calendar.SECOND, 1);
         next.set(Calendar.MILLISECOND, 0);
-        am.setExact(AlarmManager.RTC, next.getTimeInMillis(), midnightIntent(context));
+        long triggerAtMillis = next.getTimeInMillis();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            am.setExactAndAllowWhileIdle(AlarmManager.RTC, triggerAtMillis, midnightIntent(context));
+        } else {
+            am.setExact(AlarmManager.RTC, triggerAtMillis, midnightIntent(context));
+        }
     }
 }
