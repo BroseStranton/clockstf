@@ -18,8 +18,8 @@ import java.util.Calendar;
 /**
  * Widget heure + date.
  * - L'heure (HH:mm, 24h) est geree par un TextClock : mise a jour automatique.
- * - La date ("ven 6 nov") est calculee ici et rafraichie a minuit, ainsi qu'a chaque
- *   changement de date / heure / fuseau horaire.
+ * - La date est calculee ici et rafraichie a minuit, a l'allumage de l'ecran,
+ *   ainsi qu'a chaque changement de date / heure / fuseau horaire.
  */
 public class ClockWidgetProvider extends AppWidgetProvider {
 
@@ -67,11 +67,17 @@ public class ClockWidgetProvider extends AppWidgetProvider {
             return;
         }
         String action = intent.getAction();
-        if (ACTION_MIDNIGHT.equals(action)
+        boolean isDateOrScreenRefresh = ACTION_MIDNIGHT.equals(action)
                 || Intent.ACTION_DATE_CHANGED.equals(action)
-                || Intent.ACTION_TIME_CHANGED.equals(action)
-                || Intent.ACTION_TIMEZONE_CHANGED.equals(action)) {
+                || Intent.ACTION_SCREEN_ON.equals(action);
+        boolean isClockChange = Intent.ACTION_TIME_CHANGED.equals(action)
+                || Intent.ACTION_TIME_SET.equals(action)
+                || Intent.ACTION_TIMEZONE_CHANGED.equals(action);
+
+        if (isDateOrScreenRefresh || isClockChange) {
             refreshAll(context);
+        }
+        if (ACTION_MIDNIGHT.equals(action) || isClockChange) {
             scheduleMidnight(context);
         }
     }
@@ -127,7 +133,7 @@ public class ClockWidgetProvider extends AppWidgetProvider {
         return PendingIntent.getActivity(context, 1, intent, pendingIntentFlags());
     }
 
-    /** Ex : "ven 6 nov" (jour sans zero devant). */
+    /** Ex : "VEN 6 NOV" (jour sans zero devant). */
     static String formatDate(Calendar c) {
         // DAY_OF_WEEK : DIM=1, LUN=2, ..., SAM=7  ->  index : LUN=0, ..., DIM=6
         int index = (c.get(Calendar.DAY_OF_WEEK) + 5) % 7;
