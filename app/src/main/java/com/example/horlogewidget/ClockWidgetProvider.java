@@ -71,7 +71,6 @@ public class ClockWidgetProvider extends AppWidgetProvider {
                 || Intent.ACTION_DATE_CHANGED.equals(action)
                 || Intent.ACTION_SCREEN_ON.equals(action);
         boolean isClockChange = Intent.ACTION_TIME_CHANGED.equals(action)
-                || Intent.ACTION_TIME_SET.equals(action)
                 || Intent.ACTION_TIMEZONE_CHANGED.equals(action);
 
         if (isDateOrScreenRefresh || isClockChange) {
