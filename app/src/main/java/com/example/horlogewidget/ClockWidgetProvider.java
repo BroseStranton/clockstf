@@ -30,6 +30,14 @@ public class ClockWidgetProvider extends AppWidgetProvider {
             "JAN", "FÉV", "MAR", "AVR", "MAI", "JUIN",
             "JUIL", "AOÛ", "SEP", "OCT", "NOV", "DÉC"};
 
+    private static int pendingIntentFlags() {
+        int flags = PendingIntent.FLAG_UPDATE_CURRENT;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            flags |= PendingIntent.FLAG_IMMUTABLE;
+        }
+        return flags;
+    }
+
     @Override
     public void onUpdate(Context context, AppWidgetManager manager, int[] appWidgetIds) {
         for (int id : appWidgetIds) {
@@ -91,7 +99,7 @@ public class ClockWidgetProvider extends AppWidgetProvider {
             intent = new Intent(AlarmClock.ACTION_SHOW_ALARMS);
         }
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        return PendingIntent.getActivity(context, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        return PendingIntent.getActivity(context, 1, intent, pendingIntentFlags());
     }
 
     /** Ex : "ven 6 nov" (jour sans zero devant). */
@@ -107,7 +115,7 @@ public class ClockWidgetProvider extends AppWidgetProvider {
     private static PendingIntent midnightIntent(Context context) {
         Intent intent = new Intent(context, ClockWidgetProvider.class);
         intent.setAction(ACTION_MIDNIGHT);
-        return PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        return PendingIntent.getBroadcast(context, 0, intent, pendingIntentFlags());
     }
 
     /** Programme un rafraichissement juste apres le prochain minuit. */
