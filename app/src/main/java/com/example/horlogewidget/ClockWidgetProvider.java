@@ -7,6 +7,8 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.os.Build;
 import android.provider.AlarmClock;
 import android.widget.RemoteViews;
@@ -36,6 +38,18 @@ public class ClockWidgetProvider extends AppWidgetProvider {
             flags |= PendingIntent.FLAG_IMMUTABLE;
         }
         return flags;
+    }
+
+    private static boolean canResolveIntent(Context context, Intent intent) {
+        if (intent == null) {
+            return false;
+        }
+        PackageManager pm = context.getPackageManager();
+        if (pm == null) {
+            return false;
+        }
+        ResolveInfo info = pm.resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY);
+        return info != null;
     }
 
     @Override
@@ -87,17 +101,28 @@ public class ClockWidgetProvider extends AppWidgetProvider {
     private static RemoteViews buildViews(Context context) {
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_clock);
         views.setTextViewText(R.id.txt_date, formatDate(Calendar.getInstance()));
-        views.setOnClickPendingIntent(R.id.widget_root, clockAppIntent(context));
+        PendingIntent openClock = clockAppIntent(context);
+        if (openClock != null) {
+            views.setOnClickPendingIntent(R.id.widget_root, openClock);
+        }
         return views;
     }
 
     /** Ouvre l'application Horloge (Xiaomi / AOSP : com.android.deskclock). */
     private static PendingIntent clockAppIntent(Context context) {
-        Intent intent = context.getPackageManager().getLaunchIntentForPackage(CLOCK_PACKAGE);
-        if (intent == null) {
-            // Repli : n'importe quelle application horloge installee
+        PackageManager pm = context.getPackageManager();
+        Intent intent = (pm != null) ? pm.getLaunchIntentForPackage(CLOCK_PACKAGE) : null;
+
+        if (!canResolveIntent(context, intent)) {
             intent = new Intent(AlarmClock.ACTION_SHOW_ALARMS);
         }
+        if (!canResolveIntent(context, intent)) {
+            intent = new Intent(AlarmClock.ACTION_SET_ALARM);
+        }
+        if (!canResolveIntent(context, intent)) {
+            return null;
+        }
+
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         return PendingIntent.getActivity(context, 1, intent, pendingIntentFlags());
     }
